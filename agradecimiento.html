@@ -9,7 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-      <!-- Meta Pixel Code -->
+
+    <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -95,8 +96,86 @@
             background-image: linear-gradient(to right, rgba(74, 55, 40, 0.05) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(74, 55, 40, 0.05) 1px, transparent 1px);
         }
-    </style>
+        /* --- ANIMACIÓN DE MAGIA VIOLETA SUTIL --- */
+        
+        /* Movimiento de las nubes de gas mágico de fondo */
+        @keyframes floatMagic {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.15);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        /* Movimiento de las partículas místicas hacia arriba */
+        @keyframes floatSparks {
+            0% {
+                transform: translateY(110vh) translateX(0) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(50px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Efecto de destello suave para partículas individuales */
+        @keyframes pulseSpark {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.4); opacity: 0.8; }
+        }
+
+        /* Contenedor de gas mágico difuminado */
+        .magic-glow-1 {
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.18) 0%, rgba(219, 39, 119, 0.03) 70%, transparent 100%);
+            animation: floatMagic 20s infinite ease-in-out;
+        }
+        .magic-glow-2 {
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.02) 70%, transparent 100%);
+            animation: floatMagic 25s infinite ease-in-out;
+            animation-delay: -5s;
+        }
+
+        /* Clases de partículas individuales */
+        .spark {
+            position: absolute;
+            background: radial-gradient(circle, rgba(233, 213, 255, 0.9) 0%, rgba(167, 139, 250, 0.4) 60%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+</style>
+
 <body>
+    <!-- CAPA DE MAGIA DE FONDO (Sutil y delicada) -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Nubes de luz lavanda flotantes -->
+        <div class="magic-glow-1 absolute -top-40 -left-40 w-96 h-96 sm:w-[500px] sm:h-[500px] rounded-full blur-3xl"></div>
+        <div class="magic-glow-2 absolute top-1/2 -right-40 w-96 h-96 sm:w-[600px] sm:h-[600px] rounded-full blur-3xl"></div>
+        <div class="magic-glow-1 absolute -bottom-40 left-1/4 w-96 h-96 sm:w-[500px] sm:h-[500px] rounded-full blur-3xl"></div>
+
+        <!-- Partículas místicas flotantes (Sparks) animadas individualmente con diferentes tiempos -->
+        <div class="spark w-3 h-3" style="left: 15%; animation: floatSparks 18s infinite linear; animation-delay: 0s;"></div>
+        <div class="spark w-2 h-2" style="left: 35%; animation: floatSparks 24s infinite linear; animation-delay: -4s;"></div>
+        <div class="spark w-4 h-4" style="left: 55%; animation: floatSparks 20s infinite linear; animation-delay: -8s;"></div>
+        <div class="spark w-3 h-3" style="left: 75%; animation: floatSparks 22s infinite linear; animation-delay: -12s;"></div>
+        <div class="spark w-2 h-2" style="left: 88%; animation: floatSparks 26s infinite linear; animation-delay: -2s;"></div>
+        <div class="spark w-3 h-3" style="left: 25%; animation: floatSparks 21s infinite linear; animation-delay: -15s;"></div>
+        <div class="spark w-4 h-4" style="left: 65%; animation: floatSparks 19s infinite linear; animation-delay: -6s;"></div>
+    </div>
     <div id="view-thankyou">
         <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
             
