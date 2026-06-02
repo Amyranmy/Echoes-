@@ -77,10 +77,87 @@
             background-image: linear-gradient(to right, rgba(74, 55, 40, 0.05) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(74, 55, 40, 0.05) 1px, transparent 1px);
         }
+         /* --- ANIMACIÓN DE MAGIA VIOLETA SUTIL --- */
+        
+        /* Movimiento de las nubes de gas mágico de fondo */
+        @keyframes floatMagic {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.15);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        /* Movimiento de las partículas místicas hacia arriba */
+        @keyframes floatSparks {
+            0% {
+                transform: translateY(110vh) translateX(0) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(50px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Efecto de destello suave para partículas individuales */
+        @keyframes pulseSpark {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.4); opacity: 0.8; }
+        }
+
+        /* Contenedor de gas mágico difuminado */
+        .magic-glow-1 {
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.18) 0%, rgba(219, 39, 119, 0.03) 70%, transparent 100%);
+            animation: floatMagic 20s infinite ease-in-out;
+        }
+        .magic-glow-2 {
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.02) 70%, transparent 100%);
+            animation: floatMagic 25s infinite ease-in-out;
+            animation-delay: -5s;
+        }
+
+        /* Clases de partículas individuales */
+        .spark {
+            position: absolute;
+            background: radial-gradient(circle, rgba(233, 213, 255, 0.9) 0%, rgba(167, 139, 250, 0.4) 60%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
 
+    <!-- CAPA DE MAGIA DE FONDO (Sutil y delicada) -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Nubes de luz lavanda flotantes -->
+        <div class="magic-glow-1 absolute -top-40 -left-40 w-96 h-96 sm:w-[500px] sm:h-[500px] rounded-full blur-3xl"></div>
+        <div class="magic-glow-2 absolute top-1/2 -right-40 w-96 h-96 sm:w-[600px] sm:h-[600px] rounded-full blur-3xl"></div>
+        <div class="magic-glow-1 absolute -bottom-40 left-1/4 w-96 h-96 sm:w-[500px] sm:h-[500px] rounded-full blur-3xl"></div>
+
+        <!-- Partículas místicas flotantes (Sparks) animadas individualmente con diferentes tiempos -->
+        <div class="spark w-3 h-3" style="left: 15%; animation: floatSparks 18s infinite linear; animation-delay: 0s;"></div>
+        <div class="spark w-2 h-2" style="left: 35%; animation: floatSparks 24s infinite linear; animation-delay: -4s;"></div>
+        <div class="spark w-4 h-4" style="left: 55%; animation: floatSparks 20s infinite linear; animation-delay: -8s;"></div>
+        <div class="spark w-3 h-3" style="left: 75%; animation: floatSparks 22s infinite linear; animation-delay: -12s;"></div>
+        <div class="spark w-2 h-2" style="left: 88%; animation: floatSparks 26s infinite linear; animation-delay: -2s;"></div>
+        <div class="spark w-3 h-3" style="left: 25%; animation: floatSparks 21s infinite linear; animation-delay: -15s;"></div>
+        <div class="spark w-4 h-4" style="left: 65%; animation: floatSparks 19s infinite linear; animation-delay: -6s;"></div>
+    </div>
     <!-- Header / Navegación -->
     <header class="border-b-4 border-[#4a3728] bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -140,26 +217,35 @@
             <!-- ================= 1ª SECCIÓN: CABECERA / INICIO ================= -->
             <section id="inicio" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
                 <!-- Video a la Izquierda (Ocupa 7/12) -->
-                <div class="lg:col-span-7">
-                    <div class="relative w-full aspect-video cozy-card tape-effect overflow-hidden p-3 bg-white">
-                        <div class="w-full h-full rounded-lg overflow-hidden border-2 border-[#4a3728] bg-[#1a162b] relative">
-                            <video id="promoVideo" class="w-full h-full object-cover opacity-80 hover:opacity-95 transition-opacity duration-300" autoplay loop muted playsinline>
-                                <source src="https://assets.mixkit.co/videos/preview/mixkit-hand-holding-a-glowing-retro-light-bulb-in-darkness-41617-large.mp4" type="video/mp4">
-                                Tu navegador no soporta video.
-                            </video>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
-                            
-                            <div class="absolute top-3 left-3 bg-yellow-100 text-[#4a3728] font-cozy text-xs px-3 py-1 rounded-md border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
-                                DEMO REEL
-                            </div>
-
-                            <button onclick="toggleVideoPlay()" class="absolute bottom-3 left-3 bg-white hover:bg-yellow-100 text-[#4a3728] p-2 rounded-lg border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] transition-all">
-                                <i id="playIcon" data-lucide="pause" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
+            <div class="lg:col-span-7">
+        <div class="relative w-full aspect-video cozy-card tape-effect overflow-hidden p-3 bg-white">
+            <div class="w-full h-full rounded-lg overflow-hidden border-2 border-[#4a3728] bg-[#1a162b] relative">
+                
+                <video 
+                    id="promoVideo" 
+                    src="https://cdn.discordapp.com/attachments/1511451376436121712/1511451868327448696/prueba-3.mp4?ex=6a2080be&is=6a1f2f3e&hm=76da3818280dad6824b2b09ee47f2f1e8e678c79e11c6d3a57c183e79bba5a7d&" 
+                    class="w-full h-full object-cover opacity-80 hover:opacity-95 transition-opacity duration-300" 
+                    autoplay 
+                    loop 
+                    muted 
+                    playsinline
+                >
+                    Tu navegador no soporta video.
+                </video>
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+                
+                <div class="absolute top-3 left-3 bg-yellow-100 text-[#4a3728] font-cozy text-xs px-3 py-1 rounded-md border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
+                    DEMO REEL
                 </div>
+
+                <button onclick="toggleVideoPlay()" class="absolute bottom-3 left-3 bg-white hover:bg-yellow-100 text-[#4a3728] p-2 rounded-lg border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] transition-all">
+                    <i id="playIcon" data-lucide="pause" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
                 <!-- Cuadro de Texto a la Derecha (Ocupa 5/12) -->
                 <div class="lg:col-span-5">
@@ -168,7 +254,7 @@
                         <div class="absolute -top-3 -right-3 text-yellow-500 animate-pulse"><i data-lucide="sparkle" class="w-8 h-8 fill-yellow-400"></i></div>
                         
                         <!-- Logo del Juego -->
-                       <div class="flex items-center justify-center lg:justify-start mb-6">
+                        <div class="flex items-center justify-center lg:justify-start mb-6">
                             <!-- 
                               Optimizamos las clases para adaptarnos a la resolución de 895x607:
                               - 'aspect-[895/607]' define la proporción exacta para prevenir saltos visuales o deformación.
@@ -184,25 +270,25 @@
                             />
                         </div>
 
-                        <!-- Texto Descriptivo Requerido + Botón de Votar -->
                         <div class="pt-1 space-y-5">
-                            <p class="font-cozy text-lg sm:text-xl text-[#5d4737] leading-relaxed font-bold">
+                            <p class="font-cozy text-lg sm:text-xl text-[#5d4737] leading-relaxed font-bold text-center">
                                 Con tu voto este proyecto podrá hacerse realidad y estará disponible GRATIS en noviembre.
                             </p>
                             
-                            <!-- Botón de Votar de la Sección 1 -->
-                            <div class="pt-2 flex justify-center lg:justify-start">
+                            <!-- Botón de Votar de la Sección 1 Centrado -->
+                            <div class="pt-2 flex justify-center">
                                 <a 
-                                    href="agradecimiento.html"
-                                    class="vote-btn-trigger unpacking-btn py-3 px-8 text-sm uppercase flex items-center justify-center gap-2 cursor-pointer"
+                                    href="agradecimiento.html" 
+                                    class="vote-btn-trigger unpacking-btn py-5 px-10  text-base md:text-lg uppercase flex items-center justify-center gap-3 cursor-pointer shadow-[5px_5px_0px_#4a3728] hover:translate-y-[-1px] active:translate-y-[1px]"
+                                
                                 >
-                                    <i data-lucide="heart" class="w-4 h-4 fill-white"></i>
+                                    <i data-lucide="heart" class="w-5 h-5 fill-white"></i>
                                     Votar por Echoes
                                 </a>
                             </div>
 
                             <div class="h-[2px] bg-[#4a3728]/10 my-2"></div>
-                            <p class="text-xs text-purple-600 font-bold uppercase tracking-wider flex items-center gap-1 justify-center lg:justify-start">
+                            <p class="text-xs text-purple-600 font-bold uppercase tracking-wider flex items-center gap-1 justify-center">
                                 <i data-lucide="calendar" class="w-4 h-4"></i> Lanzamiento WebGL 2026
                             </p>
                         </div>
@@ -252,15 +338,14 @@
                     <h2 class="font-cozy text-3xl sm:text-4xl font-bold text-[#4a3728]">¿De qué se trata este juego?</h2>
                     <div class="space-y-4 text-sm sm:text-base text-[#5d4737] leading-relaxed font-semibold">
                         <p>
-                            <strong class="text-purple-600">Echoes</strong> es una experiencia pacífica y cozy en la que heredas una entrañable casa abandonada que debes restaurar desde cero. Sin embargo, tu trabajo de orden y limpieza se verá constantemente saboteado por pequeñas criaturas mágicas. 
+                            <strong class="text-purple-600">Echoes</strong> es una cozy en la que heredas una casa abandonada algo extraña que debes restaurar desde cero. Sin embargo, tu trabajo de orden y limpieza se verá constantemente saboteado por pequeños contratiempos mágicos. 
                         </p>
                         <p>
-                            Estos traviesos compañeros ocultarán tus objetos preferidos y convertirán tareas cotidianas y sencillas de organización en situaciones de lo más absurdas.
+                            Pero bajo este caos, la casa oculta un pasado oscuro y fragmentado.  
+                            A medida que avanzas, más evidente se vuelve que este desorden no nace en el presente, sino que es una manifestación directa del pasado.
                         </p>
-                        <p class="text-xs text-purple-500 flex items-center gap-1.5 bg-purple-50 border-2 border-dashed border-[#4a3728] p-3 rounded-xl">
-                            <i data-lucide="archive" class="w-5 h-5"></i>
-                            Bajo este tierno caos, la casa esconde un pasado oscuro y fragmentado que irás descubriendo de forma única en cada habitación.
-                        </p>
+                        
+                        
                     </div>
                 </div>
             </section>
@@ -268,7 +353,7 @@
             <!-- ================= 3ª SECCIÓN: TRES IMÁGENES EN HORIZONTAL ================= -->
             <section id="galeria" class="space-y-4 pt-4">
                 <div class="text-center">
-                    <h3 class="font-cozy text-2xl font-bold text-[#4a3728]">Postales del Pasado</h3>
+                    <h3 class="font-cozy text-2xl font-bold text-[#4a3728]">Postales</h3>
                     <p class="text-xs text-[#5d4737] font-bold uppercase">Habitaciones y ambientes pixel art en desarrollo</p>
                 </div>
                 
@@ -278,21 +363,21 @@
                         <div class="rounded-lg overflow-hidden border-2 border-[#4a3728] aspect-video">
                             <img src="img/cosigoej1.JPG" alt="[Living cozy en reparación]" class="w-full h-full object-cover">
                         </div>
-                        <span class="font-cozy text-xs block text-center mt-2 font-bold">1. El Living de la Abuela</span>
+                        
                     </div>
                     <!-- Imagen Horizontal 2 -->
                     <div class="cozy-card overflow-hidden p-3 bg-white">
                         <div class="rounded-lg overflow-hidden border-2 border-[#4a3728] aspect-video">
                             <img src="img/cositoej2.JPG" alt="[Cocina rústica pixelada]" class="w-full h-full object-cover">
                         </div>
-                        <span class="font-cozy text-xs block text-center mt-2 font-bold">2. La Antigua Cocina</span>
+                        
                     </div>
                     <!-- Imagen Horizontal 3 -->
                     <div class="cozy-card overflow-hidden p-3 bg-white">
                         <div class="rounded-lg overflow-hidden border-2 border-[#4a3728] aspect-video">
                             <img src="img/cosigoej1.JPG" alt="[Mueble de diseño antiguo]" class="w-full h-full object-cover">
                         </div>
-                        <span class="font-cozy text-xs block text-center mt-2 font-bold">3. Baño de los Espectros</span>
+            
                     </div>
                 </div>
             </section>
@@ -301,34 +386,44 @@
             <section id="jugabilidad" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-8">
                 <!-- Bloques visuales a la Izquierda (Ocupa 5/12) -->
                 <div class="lg:col-span-5 grid grid-cols-1 gap-6">
-                    <!-- Mockup de Gif/Captura de Interfaz -->
+                    <!-- Mockup de Gif/Captura de Interfaz Dinámica -->
                     <div class="cozy-card p-3 bg-white relative">
-                        <div class="rounded-lg overflow-hidden border-2 border-[#4a3728] aspect-video bg-[#faf8f5] flex items-center justify-center p-4">
-                            <!-- Simulación de interfaz táctil y arrastre de cajas -->
+                        <!-- El fondo cambia de clase con JS al igual que su estructura -->
+                        <div id="preview-bg" class="rounded-lg overflow-hidden border-2 border-[#4a3728] aspect-video bg-[#faf8f5] flex items-center justify-center p-4 transition-all duration-300">
+                            <!-- Contenedor dinámico de interfaz táctil -->
                             <div class="text-center space-y-2">
-                                <i data-lucide="package-open" class="w-12 h-12 text-purple-500 mx-auto animate-bounce"></i>
-                                <span class="font-cozy text-xs block font-bold text-[#4a3728]">Caja de Mudanza Abierta</span>
+                                <div id="preview-icon-container">
+                                    <i data-lucide="package-open" class="w-12 h-12 text-purple-500 mx-auto animate-bounce"></i>
+                                </div>
+                                <span id="preview-title" class="font-cozy text-xs block font-bold text-[#4a3728]">Caja de Mudanza Abierta</span>
                                 <div class="inline-flex gap-2 bg-yellow-100 p-1 px-3 border border-[#4a3728] rounded-full text-[10px] font-bold">
-                                    <i data-lucide="mouse-pointer" class="w-3 h-3"></i> Point-and-Drag
+                                    <!-- Contenedor para el icono dinámico del badge, evitando el bug de reemplazo de Lucide -->
+                                    <span id="preview-badge-icon-container">
+                                        <i data-lucide="mouse-pointer" class="w-3 h-3"></i>
+                                    </span>
+                                    <span id="preview-badge-text">Point-and-Drag</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Ilustración de Tareas de Reparación -->
+                    <!-- Ilustración de Tareas de Reparación Interactiva -->
                     <div class="cozy-card p-4 bg-white relative">
                         <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold text-[#4a3728]">
-                            <div class="border border-[#4a3728]/20 p-2 rounded-lg bg-orange-50">
-                                <i data-lucide="brush" class="w-5 h-5 mx-auto text-orange-500 mb-1"></i>
-                                Pintar
-                            </div>
-                            <div class="border border-[#4a3728]/20 p-2 rounded-lg bg-blue-50">
-                                <i data-lucide="sparkles" class="w-5 h-5 mx-auto text-blue-500 mb-1"></i>
-                                Limpiar
-                            </div>
-                            <div class="border border-[#4a3728]/20 p-2 rounded-lg bg-green-50">
-                                <i data-lucide="wrench" class="w-5 h-5 mx-auto text-green-500 mb-1"></i>
+                            <!-- Botón Pintar -->
+                            <button id="phase-btn-pintar" onclick="updateGameplayPreview('pintar')" class="phase-btn border-2 border-[#4a3728]/20 p-2 rounded-lg bg-white hover:bg-orange-50 hover:border-[#4a3728] transition-all cursor-pointer flex flex-col items-center justify-center">
+                                <i data-lucide="hammer" class="w-5 h-5 mx-auto text-orange-500 mb-1"></i>
                                 Reparar
-                            </div>
+                            </button>
+                            <!-- Botón Limpiar -->
+                            <button id="phase-btn-limpiar" onclick="updateGameplayPreview('limpiar')" class="phase-btn border-2 border-[#4a3728]/20 p-2 rounded-lg bg-white hover:bg-blue-50 hover:border-[#4a3728] transition-all cursor-pointer flex flex-col items-center justify-center">
+                                <i data-lucide="sofa" class="w-5 h-5 mx-auto text-blue-500 mb-1"></i>
+                                Amueblar
+                            </button>
+                            <!-- Botón Reparar -->
+                            <button id="phase-btn-reparar" onclick="updateGameplayPreview('reparar')" class="phase-btn border-2 border-[#4a3728]/20 p-2 rounded-lg bg-white hover:bg-green-50 hover:border-[#4a3728] transition-all cursor-pointer flex flex-col items-center justify-center">
+                                <i data-lucide="sparkles" class="w-5 h-5 mx-auto text-green-500 mb-1"></i>
+                                Decorar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -338,24 +433,35 @@
                     <span class="text-xs font-bold uppercase bg-purple-100 border-2 border-[#4a3728] px-3 py-1 rounded-full shadow-[2px_2px_0px_#4a3728] inline-block">
                         MECÁNICAS E INTERACCIÓN
                     </span>
-                    <h2 class="font-cozy text-3xl sm:text-4xl font-bold text-[#4a3728]">Jugabilidad Táctil y Divertida</h2>
+                    <h2 class="font-cozy text-3xl sm:text-4xl font-bold text-[#4a3728]">Las 3 Fases de la Mudanza</h2>
                     <div class="space-y-4 text-sm sm:text-base text-[#5d4737] leading-relaxed font-semibold">
                         <p>
-                            En <strong class="text-purple-600">Echoes</strong> controlas el flujo de la casa de forma muy interactiva. Cada nivel cuenta con dos fases sumamente adictivas antes de considerarse superado:
+                            En <strong class="text-purple-600">Echoes</strong> controlas el flujo de la casa de forma muy interactiva. Cada nivel cuenta con tres etapas sumamente dinámicas antes de considerarse superado:
                         </p>
-                        <ul class="space-y-2 pl-2">
-                            <li class="flex items-start gap-2">
-                                <i data-lucide="wrench" class="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5"></i>
-                                <span><strong>Fase 1: Reparar.</strong> Limpia, pinta y arregla las zonas afectadas por el paso de los años con dinámicos minijuegos.</span>
+                        <ul class="space-y-3 pl-2">
+                            <li class="flex items-start gap-2.5">
+                                <span class="bg-orange-100 border-2 border-[#4a3728] text-[#4a3728] rounded-full w-6 h-6 flex items-center justify-center font-cozy text-xs font-bold flex-shrink-0 mt-0.5">1</span>
+                                <div>
+                                    <strong class="text-[#4a3728] block">Fase 1: Reparar la habitación</strong>
+                                    <span class="text-xs text-[#5d4737] font-medium block mt-0.5">Limpia las místicas telarañas, lija y arregla las grietas de la pared y pinta las habitaciones usando intuitivos y táctiles minijuegos.</span>
+                                </div>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <i data-lucide="grid" class="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5"></i>
-                                <span><strong>Fase 2: Redecorar.</strong> Desempaca cajas de cartón con libertad total para ubicar tus pertenencias y escoge entre 4 variables de diseño para cada mueble.</span>
+                            <li class="flex items-start gap-2.5">
+                                <span class="bg-blue-100 border-2 border-[#4a3728] text-[#4a3728] rounded-full w-6 h-6 flex items-center justify-center font-cozy text-xs font-bold flex-shrink-0 mt-0.5">2</span>
+                                <div>
+                                    <strong class="text-[#4a3728] block">Fase 2: Amueblar la habitación</strong>
+                                    <span class="text-xs text-[#5d4737] font-medium block mt-0.5">Elige las piezas principales de mobiliario para estructurar el espacio utilizando nuestra barra de personalización con 4 variables estéticas únicas.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="bg-pink-100 border-2 border-[#4a3728] text-[#4a3728] rounded-full w-6 h-6 flex items-center justify-center font-cozy text-xs font-bold flex-shrink-0 mt-0.5">3</span>
+                                <div>
+                                    <strong class="text-[#4a3728] block">Fase 3: Decorar y organizar la habitación</strong>
+                                    <span class="text-xs text-[#5d4737] font-medium block mt-0.5">Desempaca las nostálgicas cajas y ubica libremente cada pequeño objeto personal de los espíritus en estantes, mesas o cajones con arrastre point-and-drag.</span>
+                                </div>
                             </li>
                         </ul>
-                        <p class="text-xs text-[#5d4737] italic">
-                            ¡Ojo con los microeventos aleatorios! Desde protestas sindicales de ratas hasta manifestaciones de gravedad cero, la casa desafiará constantemente tus capacidades de organización.
-                        </p>
+                        
                     </div>
                 </div>
             </section>
@@ -370,7 +476,8 @@
                     <h2 class="font-cozy text-3xl sm:text-4xl font-bold text-[#4a3728]">Cyan, el fauno</h2>
                     <div class="space-y-4 text-sm sm:text-base text-[#5d4737] leading-relaxed font-semibold">
                         <p>
-                            <strong>Cyan</strong> es una joven mudancera decidida que sueña con tener el hogar perfecto. Sin embargo, heredar esta misteriosa casa la pondrá a prueba no solo como decoradora, sino como mediadora entre el mundo humano y las caprichosas criaturas mágicas.
+                            <strong>Cyan</strong>, luego de perder su trabajo tras ser considerada "poco monstruo" por su apariencia, 
+                            se ve obligada a mudarse a lo único que le quedó de su herencia familiar...<strong class="text-purple-600">-La Casa Abandonada de la Abuela-</strong>.
                         </p>
                         <p>
                             Equipada con su morral de herramientas, sus cascos para escuchar música ASMR de fondo y una paciencia de hierro, Cyan tendrá que tomar decisiones que afectarán directamente la convivencia del hogar.
@@ -380,17 +487,23 @@
                 </div>
 
                 <!-- Imagen representativa de Cyan a la Derecha (Ocupa 5/12) -->
-                <div class="lg:col-span-5 flex justify-center">
-                    <div class="cozy-card bg-purple-100 p-6 flex flex-col items-center justify-center max-w-xs relative w-full aspect-square">
-                        <!-- Dibujo esquemático de Cyan -->
-                        <div class="w-40 h-40 bg-white rounded-full  flex items-center justify-center relative ">
-                            <img 
-                            src="img/PJ DIALOGO.png"
-                            </img>
-                        </div>
-                        
-                    </div>
-                </div>
+                <div class="lg:col-span-5 flex justify-center items-center">
+    <div class="cozy-card bg-purple-100 p-6 flex flex-col items-center justify-center max-w-xs w-full relative">
+        
+        <div class="w-56 h-56 bg-white rounded-full border-4 border-[#4a3728] flex items-center justify-center relative shadow-[3px_3px_0px_#4a3728] overflow-hidden">
+            <img 
+                src="img/PJ DIALOGO.png" 
+                alt="Cyan" 
+                class="w-full h-full object-contain p-2"
+            />
+        </div>
+        
+        <span class="font-cozy text-sm font-bold mt-4 text-[#4a3728] bg-white border-2 border-[#4a3728] px-3 py-1 rounded-full shadow-[2px_2px_0px_#4a3728]">
+            Cyan
+        </span>
+        
+    </div>
+</div>
             </section>
 
             <!-- ================= 6ª SECCIÓN: VOTAR & OTROS PROYECTOS ================= -->
@@ -461,80 +574,7 @@
         </main>
     </div>
 
-    <!-- VISTA NUEVA: PÁGINA DE AGRADECIMIENTO (Se activa dinámicamente) -->
-    <div id="view-thankyou" class="hidden">
-        <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-            
-            <div class="cozy-card notebook-pattern p-8 sm:p-12 text-center relative overflow-hidden max-w-2xl mx-auto my-6">
-                <!-- Efectos cinta adhesiva en las esquinas -->
-                <div class="absolute -top-2 -left-6 bg-yellow-300/80 w-24 h-6 border-x-2 border-dashed border-yellow-600/30 transform -rotate-12"></div>
-                <div class="absolute -top-2 -right-6 bg-yellow-300/80 w-24 h-6 border-x-2 border-dashed border-yellow-600/30 transform rotate-12"></div>
-                
-                <!-- Ilustración Animada de Fantasma Alegre -->
-                <div class="relative w-36 h-36 mx-auto mb-6">
-                    <div class="absolute inset-0 bg-purple-100 rounded-full animate-ping opacity-25"></div>
-                    <div class="w-full h-full bg-purple-100 border-4 border-[#4a3728] rounded-full flex items-center justify-center shadow-[4px_4px_0px_#4a3728] relative z-10">
-                        <svg viewBox="0 0 100 100" class="w-20 h-20 text-purple-600 animate-bounce" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="animation-duration: 2s;">
-                            <!-- Fantasma Feliz -->
-                            <path d="M 30 50 Q 50 15 70 50 Q 70 80 62 75 Q 50 85 38 75 Q 30 80 30 50 Z" fill="#faf5ff" stroke="#4a3728" stroke-width="4" />
-                            <!-- Ojos cerrados alegres -->
-                            <path d="M 40 45 Q 45 40 48 45" />
-                            <path d="M 52 45 Q 55 40 58 45" />
-                            <!-- Boca abierta -->
-                            <circle cx="50" cy="55" r="4" fill="#4a3728" />
-                            <!-- Manitos celebrando -->
-                            <path d="M 24 50 Q 18 45 22 40" stroke="#4a3728" stroke-width="3" />
-                            <path d="M 76 50 Q 82 45 78 40" stroke="#4a3728" stroke-width="3" />
-                        </svg>
-                    </div>
-                    <!-- Chispitas de celebración -->
-                    <span class="absolute -top-1 -right-3 text-yellow-500 animate-pulse"><i data-lucide="sparkle" class="w-6 h-6"></i></span>
-                    <span class="absolute bottom-2 -left-4 text-pink-500 animate-pulse" style="animation-delay: 0.5s;"><i data-lucide="sparkles" class="w-5 h-5"></i></span>
-                </div>
-
-                <!-- Título y Mensaje Principal -->
-                <h1 class="font-cozy text-4xl sm:text-5xl font-bold tracking-tight text-[#4a3728] leading-tight mb-4">
-                    ¡Gracias, querido mudancero!
-                </h1>
-                
-                <div class="space-y-4 text-sm sm:text-base text-[#5d4737] font-semibold leading-relaxed max-w-md mx-auto mb-8">
-                    <p>
-                        Tu valioso voto ha sido empaquetado con muchísimo cuidado, protegido con plástico de burbujas y despachado de forma segura a las oficinas de los Cozy Game Awards.
-                    </p>
-                    <p class="text-purple-600 font-bold bg-purple-50 border-2 border-dashed border-[#4a3728] py-2 px-4 rounded-xl inline-block shadow-[2px_2px_0px_#4a3728]">
-                        🗝️ ¡RECOMPENSA DE BETA ACTIVADA!
-                    </p>
-                    <p class="text-xs text-gray-500 italic">
-                        La taza de café con carita de fantasma para Cyan y tu invitación al Alfa Cerrado han sido reservadas para tu navegador.
-                    </p>
-                </div>
-
-                <!-- Tarjeta Postal de Despedida de Cyan y Oli -->
-                <div class="bg-yellow-50 border-3 border-[#4a3728] p-4 rounded-xl shadow-[3px_3px_0px_#4a3728] text-left max-w-md mx-auto mb-8 relative rotate-[-1deg]">
-                    <span class="absolute top-2 right-3 text-2xl">📮</span>
-                    <p class="font-cozy text-xs uppercase text-gray-400 font-bold tracking-wider mb-2">Para: Un mudancero de buen corazón</p>
-                    <p class="text-xs text-[#4a3728] italic font-semibold leading-relaxed">
-                        "¡Oli no para de flotar de alegría por toda la sala! Con tu apoyo, cada habitación de nuestra nueva y encantada mansión estará más cerca de llenarse de paz y recuerdos ordenados. ¡Nos vemos pronto en la mudanza!"
-                    </p>
-                    <div class="mt-3 pt-3 border-t-2 border-[#4a3728]/10 flex justify-between items-center text-[10px] font-bold text-[#4a3728]">
-                        <span>Estudio Mágico Witch Beam Inspired</span>
-                        <span class="text-pink-500">Cyan & Oli 💜</span>
-                    </div>
-                </div>
-
-                <!-- Botón de Retorno -->
-                <button 
-                    onclick="goBackToMain()" 
-                    class="unpacking-btn py-3 px-8 text-sm uppercase flex items-center justify-center gap-2 mx-auto cursor-pointer"
-                >
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                    Volver al Inicio
-                </button>
-
-            </div>
-
-        </main>
-    </div>
+    
 
     <!-- Footer -->
     <footer class="border-t-4 border-[#4a3728] bg-[#fbf9f4] py-8 text-center text-xs text-[#5d4737] font-semibold">
@@ -560,6 +600,7 @@
     </div>
 
     <!-- Scripts para Interactividad -->
+     <!-- Scripts para Interactividad -->
     <script>
         // Inicializar Lucide Icons
         lucide.createIcons();
@@ -603,69 +644,106 @@
         const totalSlides = 3;
 
         function showSlide(index) {
-            // Ocultar todos los slides
             for (let i = 1; i <= totalSlides; i++) {
                 document.getElementById(`slide-${i}`).classList.add('opacity-0');
             }
-            // Mostrar slide actual
             document.getElementById(`slide-${index}`).classList.remove('opacity-0');
         }
+
+        let carruselInterval = setInterval(nextSlide, 4000);
 
         function nextSlide() {
             currentSlide = currentSlide === totalSlides ? 1 : currentSlide + 1;
             showSlide(currentSlide);
         }
 
-        // Carrusel automático cada 4 segundos
-        let carruselInterval = setInterval(nextSlide, 4000);
-
         function prevSlide() {
-            clearInterval(carruselInterval); // Frenar temporizador automático al interactuar
+            clearInterval(carruselInterval);
             currentSlide = currentSlide === 1 ? totalSlides : currentSlide - 1;
             showSlide(currentSlide);
-            carruselInterval = setInterval(nextSlide, 4000); // Reactivar
+            carruselInterval = setInterval(nextSlide, 4000);
         }
 
-        // Sistema de Votación Interactivo con redirección SPA
-        let hasVoted = false;
+        function goBackToMain() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-        function castVote() {
-            if (hasVoted) return;
+        // --- SISTEMA INTERACTIVO DE JUGABILIDAD (FASES) ---
+        // Al hacer clic en Pintar, Limpiar o Reparar, actualizamos la caja superior estilo Point-and-Drag
+        function updateGameplayPreview(type) {
+            const titleEl = document.getElementById('preview-title');
+            const iconContainer = document.getElementById('preview-icon-container');
+            const badgeIconContainer = document.getElementById('preview-badge-icon-container');
+            const badgeTextEl = document.getElementById('preview-badge-text');
+            const previewBg = document.getElementById('preview-bg');
 
-            hasVoted = true;
-
-            // Mostrar notificación emergente estilizada tipo pegatina de libreta
-            const alertBox = document.getElementById('customAlert');
-            alertBox.classList.remove('translate-y-20', 'opacity-0');
-            alertBox.classList.add('translate-y-0', 'opacity-100');
-
-            // Deshabilitar y estilizar todos los botones de votación al mismo tiempo
-            const voteBtns = document.querySelectorAll('.vote-btn-trigger');
-            voteBtns.forEach(btn => {
-                btn.disabled = true;
-                btn.className = "vote-btn-trigger bg-emerald-100 text-emerald-800 border-4 border-[#4a3728] py-3 px-8 rounded-xl font-cozy font-bold tracking-wide text-xs uppercase flex items-center justify-center gap-2 cursor-not-allowed shadow-[1px_1px_0px_#4a3728] transform translate-x-[2px] translate-y-[2px] mx-auto lg:mx-0";
-                btn.innerHTML = `<i data-lucide="check-check" class="w-4 h-4 text-emerald-600"></i> ¡Votado con éxito!`;
+            // Quitar clases de activo anteriores de los botones de fase y restaurar bordes neutros
+            document.querySelectorAll('.phase-btn').forEach(btn => {
+                btn.classList.remove('bg-orange-50', 'bg-blue-50', 'bg-green-50', 'border-[#4a3728]');
+                btn.classList.add('bg-white', 'border-[#4a3728]/20');
             });
 
+            const activeBtn = document.getElementById(`phase-btn-${type}`);
+
+            let iconName = 'package-open';
+            let iconColorClass = 'text-purple-500';
+            let title = 'Caja de Mudanza Abierta';
+            let badgeIcon = 'mouse-pointer';
+            let badgeText = 'Point-and-Drag';
+            let bgClass = 'bg-[#faf8f5]';
+
+            if (type === 'pintar') {
+                if (activeBtn) {
+                    activeBtn.classList.remove('bg-white', 'border-[#4a3728]/20');
+                    activeBtn.classList.add('bg-orange-50', 'border-[#4a3728]');
+                }
+                iconName = 'hammer';
+                iconColorClass = 'text-orange-500';
+                title = 'Fase 1: Limpiando Telarañas';
+                badgeIcon = 'paintbrush';
+                badgeText = 'Minijuegos de Reparar';
+                bgClass = 'bg-orange-100/50';
+            } else if (type === 'limpiar') {
+                if (activeBtn) {
+                    activeBtn.classList.remove('bg-white', 'border-[#4a3728]/20');
+                    activeBtn.classList.add('bg-blue-50', 'border-[#4a3728]');
+                }
+                iconName = 'sofa';
+                iconColorClass = 'text-blue-500';
+                title = 'Fase 2: Amueblando la casa';
+                badgeIcon = 'gallery-horizontal';
+                badgeText = 'Multiples opciones de catálogo';
+                bgClass = 'bg-blue-100/50';
+            } else if (type === 'reparar') {
+                if (activeBtn) {
+                    activeBtn.classList.remove('bg-white', 'border-[#4a3728]/20');
+                    activeBtn.classList.add('bg-green-50', 'border-[#4a3728]');
+                }
+                iconName = 'sparkles';
+                iconColorClass = 'text-green-500';
+                title = 'Fase 3: Decorando cada esquina';
+                badgeIcon = 'boxes';
+                badgeText = 'Organizando todo el desastre';
+                bgClass = 'bg-green-100/50';
+            }
+
+            // Cambiar fondo del contenedor con transición agradable
+            if (previewBg) {
+                previewBg.className = `rounded-lg overflow-hidden border-2 border-[#4a3728] aspect-video flex items-center justify-center p-4 transition-all duration-300 ${bgClass}`;
+            }
+
+            // Re-inyectar icono e información recreando los nodos 'i' desde cero
+            if (iconContainer) {
+                iconContainer.innerHTML = `<i data-lucide="${iconName}" class="w-12 h-12 ${iconColorClass} mx-auto animate-bounce"></i>`;
+            }
+            if (titleEl) titleEl.textContent = title;
+            if (badgeTextEl) badgeTextEl.textContent = badgeText;
+            if (badgeIconContainer) {
+                badgeIconContainer.innerHTML = `<i data-lucide="${badgeIcon}" class="w-3 h-3"></i>`;
+            }
+
+            // Forzar a Lucide a procesar los nuevos iconos inyectados por JavaScript
             lucide.createIcons();
-
-            // Ocultar notificación y redirigir a la vista de agradecimiento
-            setTimeout(() => {
-                alertBox.classList.remove('translate-y-0', 'opacity-100');
-                alertBox.classList.add('translate-y-20', 'opacity-0');
-                
-                // Redirección interna suave a la vista de agradecimiento
-                document.getElementById('view-main').classList.add('hidden');
-                document.getElementById('view-thankyou').classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 1200);
-        }
-
-        // Función para regresar a la vista de inicio
-        function goBackToMain() {
-            document.getElementById('view-thankyou').classList.add('hidden');
-            document.getElementById('view-main').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
