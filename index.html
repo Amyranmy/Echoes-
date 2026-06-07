@@ -138,6 +138,16 @@
             pointer-events: none;
             z-index: 1;
         }
+
+        /* Fuerza al iframe generado por YouTube a ocupar todo el contenedor */
+.video-container iframe {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
@@ -218,34 +228,24 @@
             <section id="inicio" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
                 <!-- Video a la Izquierda (Ocupa 7/12) -->
             <div class="lg:col-span-7">
-        <div class="relative w-full aspect-video cozy-card tape-effect overflow-hidden p-3 bg-white">
-            <div class="w-full h-full rounded-lg overflow-hidden border-2 border-[#4a3728] bg-[#1a162b] relative">
-                
-                <video 
-                    id="promoVideo" 
-                    src="https://cdn.discordapp.com/attachments/1511451376436121712/1511451868327448696/prueba-3.mp4?ex=6a2080be&is=6a1f2f3e&hm=76da3818280dad6824b2b09ee47f2f1e8e678c79e11c6d3a57c183e79bba5a7d&" 
-                    class="w-full h-full object-cover opacity-80 hover:opacity-95 transition-opacity duration-300" 
-                    autoplay 
-                    loop 
-                    muted 
-                    playsinline
-                >
-                    Tu navegador no soporta video.
-                </video>
-                
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
-                
-                <div class="absolute top-3 left-3 bg-yellow-100 text-[#4a3728] font-cozy text-xs px-3 py-1 rounded-md border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
-                    DEMO REEL
-                </div>
-
-                <button onclick="toggleVideoPlay()" class="absolute bottom-3 left-3 bg-white hover:bg-yellow-100 text-[#4a3728] p-2 rounded-lg border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] transition-all">
-                    <i id="playIcon" data-lucide="pause" class="w-4 h-4"></i>
-                </button>
+    <div class="relative w-full aspect-video cozy-card tape-effect overflow-hidden p-3 bg-white">
+        <div class="w-full h-full rounded-lg overflow-hidden border-2 border-[#4a3728] bg-[#1a162b] relative video-container">
+            
+            <div id="promoVideo"></div>
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none z-10"></div>
+            
+            <div class="absolute top-3 left-3 bg-yellow-100 text-[#4a3728] font-cozy text-xs px-3 py-1 rounded-md border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] flex items-center gap-1.5 z-20">
+                <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
+                DEMO REEL
             </div>
+
+            <button onclick="toggleVideoMute()" id="videoMuteBtn" class="absolute bottom-3 left-3 bg-white hover:bg-yellow-100 text-[#4a3728] p-2 rounded-lg border-2 border-[#4a3728] shadow-[2px_2px_0px_#4a3728] transition-all z-20">
+                <i id="videoMuteIcon" data-lucide="volume-x" class="w-4 h-4"></i>
+            </button>
         </div>
     </div>
+</div>
 
                 <!-- Cuadro de Texto a la Derecha (Ocupa 5/12) -->
                 <div class="lg:col-span-5">
@@ -605,39 +605,73 @@
         // Inicializar Lucide Icons
         lucide.createIcons();
 
-        // Control de Video
-        const video = document.getElementById('promoVideo');
-        const playIcon = document.getElementById('playIcon');
+        // 1. Carga de forma automática la librería de la API de YouTube
+let player;
 
-        function toggleVideoPlay() {
-            if (video.paused) {
-                video.play();
-                playIcon.setAttribute('data-lucide', 'pause');
-            } else {
-                video.pause();
-                playIcon.setAttribute('data-lucide', 'play');
-            }
-            lucide.createIcons(); 
+// 1. Forzamos la descarga asíncrona de la API de YouTube
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 2. Esta función se activará automáticamente en cuanto el script de arriba cargue
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('promoVideo', {
+        videoId: '0fFN6LCEbUk', 
+        playerVars: {
+            'autoplay': 1,       
+            'controls': 0,       
+            'loop': 1,           
+            'playlist': '0fFN6LCEbUk', 
+            'mute': 1,           
+            'modestbranding': 1, 
+            'rel': 0,
+            'showinfo': 0,
+            'iv_load_policy': 3
+        },
+        events: {
+            'onReady': onPlayerReady
         }
+    });
+}
 
-        // Control de Sonido del Video
-        const soundBtn = document.getElementById('soundBtn');
-        const soundIcon = document.getElementById('soundIcon');
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
 
-        function toggleSound() {
-            if (video.muted) {
-                video.muted = false;
-                soundIcon.setAttribute('data-lucide', 'volume-2');
-                soundBtn.classList.remove('bg-yellow-100');
-                soundBtn.classList.add('bg-green-100');
-            } else {
-                video.muted = true;
-                soundIcon.setAttribute('data-lucide', 'volume-x');
-                soundBtn.classList.remove('bg-green-100');
-                soundBtn.classList.add('bg-yellow-100');
-            }
-            lucide.createIcons();
-        }
+// Función para el botón Mute del Video
+function toggleVideoMute() {
+    if (!player || typeof player.isMuted !== 'function') return;
+
+    const muteIcon = document.getElementById('videoMuteIcon');
+
+    if (player.isMuted()) {
+        player.unMute();
+        muteIcon.setAttribute('data-lucide', 'volume-2'); 
+    } else {
+        player.mute();
+        muteIcon.setAttribute('data-lucide', 'volume-x'); 
+    }
+    lucide.createIcons(); 
+}
+
+// Control de sonido estético para el Header
+function toggleSound() {
+    const soundBtn = document.getElementById('soundBtn');
+    const soundIcon = document.getElementById('soundIcon');
+    if (soundBtn.classList.contains('bg-yellow-100')) {
+        soundIcon.setAttribute('data-lucide', 'volume-2');
+        soundBtn.classList.replace('bg-yellow-100', 'bg-green-100');
+    } else {
+        soundIcon.setAttribute('data-lucide', 'music');
+        soundBtn.classList.replace('bg-green-100', 'bg-yellow-100');
+    }
+    lucide.createIcons();
+}
+
+// Inicializar íconos generales
+lucide.createIcons();
+
 
         // Sistema de Carrusel
         let currentSlide = 1;
